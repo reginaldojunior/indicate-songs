@@ -7,6 +7,9 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
 from models import UserProfile
 
 
@@ -41,6 +44,8 @@ def home(request):
 		sp = spotipy.Spotify(auth=access_token)
 		user = sp.current_user()
 	except Exception, e:
+		del request.session['access_token']
+
 		return redirect('signup')
 
 	try:
@@ -69,6 +74,22 @@ def home(request):
 		'access_token': access_token,
 		'error': None
 	})
+
+@csrf_exempt
+def get_friends_by_keywords(request):
+	users = User.objects.filter(first_name__contains=request.POST['name'])
+
+	response = []
+	for user in users:
+		user_profile = UserProfile.objects.get(user_id=user.id)
+
+		response.append({
+			'name': user.first_name,
+			'url_image': user_profile.url_image,
+			'access_token': user_profile.access_token
+		})
+
+	return JsonResponse({'users': response})
 
 def getSPOauthURI():	
 	auth_url = sp_oauth.get_authorize_url()

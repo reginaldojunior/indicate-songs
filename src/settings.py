@@ -52,6 +52,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'src.urls'
+APPEND_SLASH=False
 
 TEMPLATES = [
     {
