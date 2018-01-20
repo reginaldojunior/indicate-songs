@@ -6,5 +6,6 @@ from . import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth_spotify/$', views.auth_spotify, name='auth_spotify'),
+    url(r'^signup/$', views.signup, name='signup'),
     url(r'^$', views.home, name='home'),
 ]

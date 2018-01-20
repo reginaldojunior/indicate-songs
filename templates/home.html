@@ -1,187 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
+{% extends 'base.html' %}
 
-	<style type="text/css">
-		body {
-		  background: #F1F3FA;
-		}
+{% block content %}
+	<!-- {{access_token}} -->
 
-		/* Profile container */
-		.profile {
-		  margin: 20px 0;
-		}
+	<!-- <br> -->
 
-		/* Profile sidebar */
-		.profile-sidebar {
-		  padding: 20px 0 10px 0;
-		  background: #fbfbfb;
-    	  border-radius: 5px;
-		}
+	<!-- {{error}} -->
 
-		.profile-userpic img {
-		  float: none;
-		  margin: 0 auto;
-		  width: 50%;
-		  height: 50%;
-		  -webkit-border-radius: 50% !important;
-		  -moz-border-radius: 50% !important;
-		  border-radius: 50% !important;
-		}
-
-		.profile-usertitle {
-		  text-align: center;
-		  margin-top: 20px;
-		}
-
-		.profile-usertitle-name {
-		  color: #5a7391;
-		  font-size: 16px;
-		  font-weight: 600;
-		  margin-bottom: 7px;
-		}
-
-		.profile-usertitle-job {
-		  text-transform: uppercase;
-		  color: #5b9bd1;
-		  font-size: 12px;
-		  font-weight: 600;
-		  margin-bottom: 15px;
-		}
-
-		.profile-userbuttons {
-		  text-align: center;
-		  margin-top: 10px;
-		}
-
-		.profile-userbuttons .btn {
-		  text-transform: uppercase;
-		  font-size: 11px;
-		  font-weight: 600;
-		  padding: 6px 15px;
-		  margin-right: 5px;
-		}
-
-		.profile-userbuttons .btn:last-child {
-		  margin-right: 0px;
-		}
-		    
-		.profile-usermenu {
-		  margin-top: 30px;
-		}
-
-		.profile-usermenu ul li {
-		  border-bottom: 1px solid #f0f4f7;
-		}
-
-		.profile-usermenu ul li:last-child {
-		  border-bottom: none;
-		}
-
-		.profile-usermenu ul li a {
-		  color: #93a3b5;
-		  font-size: 14px;
-		  font-weight: 400;
-		}
-
-		.profile-usermenu ul li a i {
-		  margin-right: 8px;
-		  font-size: 14px;
-		}
-
-		.profile-usermenu ul li a:hover {
-		  background-color: #fafcfd;
-		  color: #5b9bd1;
-		}
-
-		.profile-usermenu ul li.active {
-		  border-bottom: none;
-		}
-
-		.profile-usermenu ul li.active a {
-		  color: #5b9bd1;
-		  background-color: #f6f9fb;
-		  border-left: 2px solid #5b9bd1;
-		  margin-left: -2px;
-		}
-
-		/* Profile Content */
-		.profile-content {
-		  padding: 20px;
-		  background: #fbfbfb;
-		  min-height: 460px;
-		  border-radius: 5px;
-		}
-
-		.item-music {
-		  margin-bottom: 25px;
-		}
-	</style>
-
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-	<div class="container">
-		<a href="{{auth_url}}" class="btn btn-info"> Conectar Pelo Spotify</a>
-
-		{{access_token}}
-
-		<br>
-		
-		{{error}}
-
-	    <div class="row profile">
-			<div class="col-md-3">
-				<div class="profile-sidebar">
-					<!-- SIDEBAR USERPIC -->
-					<div class="profile-userpic">
-						<img src="https://avatars2.githubusercontent.com/u/7466894?s=400&u=d7b3f644b0967ac43a8764d08b2c1f857843b215&v=4" class="img-responsive" alt="">
-					</div>
-					<!-- END SIDEBAR USERPIC -->
-					<!-- SIDEBAR USER TITLE -->
-					<div class="profile-usertitle">
-						<div class="profile-usertitle-name">
-							Reginaldo Junior
-						</div>
-					</div>
-
-					<!-- SIDEBAR MENU -->
-					<div class="profile-usermenu">
-						<ul class="nav">
-							<li class="active">
-								<a href="#">
-								<i class="glyphicon glyphicon-home"></i>
-								Overview </a>
-							</li>
-						</ul>
-					</div>
-					<!-- END MENU -->
+	<div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+					<img src="https://avatars2.githubusercontent.com/u/7466894?s=400&u=d7b3f644b0967ac43a8764d08b2c1f857843b215&v=4" class="img-responsive" alt="">
 				</div>
-			</div>
-			<div class="col-md-9">
-	            <div class="profile-content">
-	            	<div class="item-music">
-					   <h4>Gucci Gang - Lip Pump por Bruno Almeida</h4>
-					   <a href="" class="btn btn-primary"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
-					   <a href="" class="btn btn-danger"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						Reginaldo Junior
 					</div>
-	            	<div class="item-music">
-					   <h4>Rashid - Vício (Part. Tássia Reis) por Kaio Teixeira</h4>
-					   <a href="" class="btn btn-primary"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
-					   <a href="" class="btn btn-danger"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>
-					</div>
-	            	<div class="item-music">
-					   <h4>Froid - Fran's Café (Clipe Oficial) por Victor Moreira</h4>
-					   <a href="" class="btn btn-primary"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
-					   <a href="" class="btn btn-danger"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>
-					</div>
-	            </div>
+				</div>
+
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li class="active">
+							<a href="#">
+							<i class="glyphicon glyphicon-home"></i>
+							Overview </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
 			</div>
 		</div>
+		<div class="col-md-9">
+	        <div class="profile-content">
+	    		{% if tracks_saveds %}
+					{% for item in tracks_saveds.items %}
+		            	<div class="item-music">
+						   <h4>{{item.track.name}} - {{item.track.album.name}}</h4>
+						   <a href="" class="btn btn-primary"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
+						   <a href="" class="btn btn-danger"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>
+						</div>
+					{% endfor %}
+				{% endif %}
+	        </div>
+		</div>
 	</div>
-
-	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}

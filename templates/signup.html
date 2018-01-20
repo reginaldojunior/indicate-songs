@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+    body{
+        background-image: url("https://images.pexels.com/photos/387/man-person-wall-music.jpg?w=940&h=650&auto=compress&cs=tinysrgb"); 
+        /*Informamos o diretório da imagem de fundo.*/
+         
+        background-size: cover;  
+        /*Background-size é onde especificamos o tamanho da imagem de fundo, o valor cover especifica que a imagem deve preencher toda a tela, de modo que o usuário possa vizualizar toda imagem.*/
+         
+        background-attachment:  fixed;
+        /*background-attachment, especifica a fixação da imagem, definimos o valor fixed para que a imagem fique fixa e não sobra nenhum tipo de movimentação.*/
+         
+        background-position: center;
+        /*background-position: Especificamos o posicionamento da imagem, definimos o valor center para que a imagem fique centralizada.*/
+         
+        background-repeat: no-repeat;
+        /*background-repeat: Especifica quando haverá repetição em nosso background, definimos o valor no-repeat para que não ocorra nenhuma repetição.*/
+    }
+</style>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel text-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/2000px-Spotify_logo_with_text.svg.png" style="width: 230px;" class="logo">
+        </div>
+    </div>
+    
+    <div class="col-md-4 col-md-offset-4">
+        <a href="{{auth_url}}" class="btn btn-lg btn-success btn-block" id="login">Conecta-se Pelo Spotify</a>
+    </div>
+</div>	
+{% endblock %}

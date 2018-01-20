@@ -2,6 +2,9 @@
 from django.shortcuts import render
 import spotipy
 from spotipy import oauth2
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
 
 PORT_NUMBER = 8000
 SPOTIPY_CLIENT_ID = '126336c473d64c0ba869e44b7c0ec8b7'
@@ -15,9 +18,13 @@ sp_oauth = oauth2.SpotifyOAuth(
 	SPOTIPY_REDIRECT_URI, scope=SCOPE, cache_path=CACHE
 )
 
+def signup(request):
+	auth_url = getSPOauthURI()
+
+	return render(request, 'signup.html', {'auth_url': auth_url})
+
 # Create your views here.
 def home(request):
-	auth_url = getSPOauthURI()
 	access_token = ''
     
 	try:
@@ -27,13 +34,18 @@ def home(request):
 
 			sp = spotipy.Spotify(auth=access_token)
 			results = sp.current_user_saved_tracks()
-
-			print results
 	except Exception, e:
-		return render(request, 'home.html', {'auth_url': auth_url, 'access_token': access_token, 'error': e})
+		return render(request, 'home.html', {
+			'access_token': access_token,
+			'error': e,
+			'tracks_saveds': {}
+		})
 
-
-	return render(request, 'home.html', {'auth_url': auth_url, 'access_token': access_token, 'error': None})
+	return render(request, 'home.html', {
+		'access_token': access_token,
+		'error': None,
+		'tracks_saveds': results
+	})
 
 def getSPOauthURI():	
 	auth_url = sp_oauth.get_authorize_url()
