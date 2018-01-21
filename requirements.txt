@@ -1,0 +1,9 @@
+Django==1.8
+django-tastypie==0.12.2
+mysql-connector-python==2.0.4
+MySQL-python==1.2.5
+mysql-utilities==1.6
+pytest==3.0.7
+pytest-django==3.1.2
+simplejson==3.6.5
+spotipy==2.4.4
