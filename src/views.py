@@ -84,7 +84,7 @@ def music_indicates(request):
 	sp = spotipy.Spotify(auth=access_token)
 	user = sp.current_user()
 
-	musics = MusicIndicates.objects.filter(from_user_id=request.session['user_id'])
+	musics = MusicIndicates.objects.filter(from_user_id=request.session['user_id']).order_by('-id')
 
 	result = []
 	for music in musics:
@@ -113,7 +113,7 @@ def indicates(request):
 	sp = spotipy.Spotify(auth=access_token)
 	user = sp.current_user()
 
-	musics = MusicIndicates.objects.filter(to_user_id=request.session['user_id'])
+	musics = MusicIndicates.objects.filter(to_user_id=request.session['user_id']).order_by('-id')
 
 	result = []
 	for music in musics:
