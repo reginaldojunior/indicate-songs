@@ -2,33 +2,8 @@
 
 {% block content %}
 	<div class="row profile">
-		<div class="col-md-3">
-			<div class="profile-sidebar">
-				<!-- SIDEBAR USERPIC -->
-				<div class="profile-userpic">
-					<img src="{{user.images.0.url}}" class="img-responsive" alt="">
-				</div>
-				<!-- END SIDEBAR USERPIC -->
-				<!-- SIDEBAR USER TITLE -->
-				<div class="profile-usertitle">
-					<div class="profile-usertitle-name">
-						{{user.display_name}}
-					</div>
-				</div>
+		{% include 'profile-sidebar.html' %}
 
-				<!-- SIDEBAR MENU -->
-				<div class="profile-usermenu">
-					<ul class="nav">
-						<li class="active">
-							<a href="#">
-							<i class="glyphicon glyphicon-home"></i>
-							Perfil </a>
-						</li>
-					</ul>
-				</div>
-				<!-- END MENU -->
-			</div>
-		</div>
 		<div class="col-md-9">
 			<input class="form-control input-search-friend" type="text" placeholder="Digite o nome do seu amigo...">
 			<a href="javascript:searchFriend();" class="btn btn-success btn-search-friend">
@@ -38,6 +13,30 @@
 	        </div>
 		</div>
 	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalMusic">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Procure a música que deseja indicar</h4>
+				</div>
+				<div class="modal-body">
+					<input class="form-control input-search-music" type="text" placeholder="Digite o da música, album ou artista...">
+					<a href="javascript:searchMusic();" class="btn btn-success btn-search-music">
+						<i class="fa fa-search"></i>
+					</a>
+			        <div class="profile-content" style="margin-top: 40px;" id="musics"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<input type="hidden" id="to_user" value="" />
+
 	<script type="text/javascript">
 		function searchFriend() {
 			name = $('.input-search-friend').val();
@@ -58,7 +57,7 @@
 			        	html += '	<div class="col-md-10">';
 			        	html += '		<h2>' + response['users'][i]['name'] + '</h2>';
 			        	html += '		<a class="btn btn-primary">';
-			        	html += '			<i class="fa fa-send"></i>';
+			        	html += '			<i class="fa fa-send" onclick="loadModelToSearchMusic(' + response['users'][i]['id'] + ');"></i>';
 			        	html += '		</a>';
 			        	html += '	</div>';
 			        	html += '</div>';
@@ -70,6 +69,72 @@
 					console.log(error);
 				}
 			});
+		}
+
+		function searchMusic() {
+			term = $('.input-search-music').val();
+
+			$.ajax({
+				url: '/search/music',
+				method: 'POST',
+				dataType: 'json',
+				data: {'term': term},
+				success: function(response) {
+					html = '';
+					for (i in response['tracks']['items']) {
+						image = response['tracks']['items'][i]['album']['images'][0]['url'];
+						track = response['tracks']['items'][i]['name'];
+						artist = response['tracks']['items'][i]['artists'][0]['name'];
+						album = response['tracks']['items'][i]['album']['name'];
+						url = response['tracks']['items'][i]['external_urls']['spotify'];
+						
+			        	html += '<div class="row" style="margin-top: 25px;">';
+			        	html += '	<div class="col-md-4">';
+						html += '		<img src="' + image + '" class="img-responsive img-rounded" alt="">';
+			        	html += '	</div>';
+			        	html += '	<div class="col-md-8">';
+			        	html += '		<p>' + track + ' - ' + artist + '- ' + album + '</p>';
+			        	html += '		<a class="btn btn-info">';
+			        	html += '			<i class="fa fa-check" onclick="sendMusic(\'' + url + '\', \'' + image + '\', \'' + track + '\');"></i>';
+			        	html += '		</a>';
+			        	html += '	</div>';
+			        	html += '</div>';
+					}
+
+					$('#musics').html(html);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+
+		function sendMusic(url, image, track) {
+			id = $('#to_user').val();
+
+			$.ajax({
+				url: '/indicate/music',
+				data: {
+					to_user_id: id,
+					image_album: image,
+					track_name: track,
+					url: url
+				},
+				dataType: 'json',
+				method: 'POST',
+				success: function(response) {
+					swal("Bom Trabalho!", "A música foi indicada para seu amigo, aguarde o feedback!", "success");
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			})
+		}
+
+		function loadModelToSearchMusic(id) {
+			$('#to_user').val(id);
+
+			$('#modalMusic').modal({'show': true});
 		}
 	</script>
 {% endblock %}

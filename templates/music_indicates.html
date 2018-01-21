@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="row profile">
+		{% include 'profile-sidebar.html' %}
+
+		<div class="col-md-9">
+			<div class="profile-content" id="musics">
+				{% for music in musics %}
+	            	<div class="row" style="margin-top: 20px;">
+	            		<div class="col-md-2">
+	            			<img src="{{ music.image_album }}" class="img-responsive img-rounded" alt="">
+						</div>
+						<div class="col-md-8">
+						   	<h3>{{ music.track_name }} por {{ music.to_user_name }}</h3>	
+						   	<a href="{{ music.url }}" target="_blank">Ver Música</a>
+						</div>
+	            		<div class="col-md-2">
+	            			<img src="{{ music.to_user_url_image }}" class="img-responsive img-circle" alt="">
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}
