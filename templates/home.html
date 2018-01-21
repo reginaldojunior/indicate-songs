@@ -5,7 +5,7 @@
 		{% include 'profile-sidebar.html' %}
 
 		<div class="col-md-9">
-			<input class="form-control input-search-friend" type="text" placeholder="Digite o nome do seu amigo...">
+			<input class="form-control input-search-friend" type="text" placeholder="Digite o nome do seu amigo ou deixe em branco para retornar todos cadastrados...">
 			<a href="javascript:searchFriend();" class="btn btn-success btn-search-friend">
 				<i class="fa fa-search"></i>
 			</a>
@@ -50,7 +50,7 @@
 					html = '';
 
 					for (i in response['users']) {	
-			        	html += '<div class="row">';
+			        	html += '<div class="row" style="margin-top: 25px;">';
 			        	html += '	<div class="col-md-2">';
 						html += '		<img src="' + response['users'][i]['url_image'] + '" class="img-responsive img-rounded" alt="">';
 			        	html += '	</div>';
