@@ -24,3 +24,14 @@ class MusicIndicates(models.Model):
 
 	class Meta:
 		db_table = "music_indicates"
+
+class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    music_indicates = models.ForeignKey(MusicIndicates, on_delete=models.CASCADE)
+    text = models.TextField()
+    date = models.CharField(max_length=10)
+    time = models.CharField(max_length=10)
+
+
+    class Meta:
+    	db_table = "comments"

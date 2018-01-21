@@ -7,6 +7,7 @@ urlpatterns = [
 	url(r'^search/friend$', views.get_friends_by_keywords, name='get_friends_by_keywords'),
 	url(r'^search/music$', views.get_musics_by_keywords, name='get_musics_by_keywords'),
 	url(r'^indicate/music$', views.post_indicate_music, name='post_indicate_music'),
+	url(r'^music/comment$', views.post_music_comment, name='post_music_comment'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth_spotify/$', views.auth_spotify, name='auth_spotify'),
     url(r'^signup/$', views.signup, name='signup'),

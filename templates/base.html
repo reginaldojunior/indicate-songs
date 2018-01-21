@@ -1,163 +1,13 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>Indique Músicas Para Seus Amigos</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style type="text/css">
-    body {
-      background: #F1F3FA;
-    }
-
-    /* Profile container */
-    .profile {
-      margin: 20px 0;
-    }
-
-    /* Profile sidebar */
-    .profile-sidebar {
-      padding: 20px 0 10px 0;
-      background: #fbfbfb;
-        border-radius: 5px;
-    }
-
-    .profile-userpic img {
-      float: none;
-      margin: 0 auto;
-      width: 50%;
-      height: 50%;
-      -webkit-border-radius: 50% !important;
-      -moz-border-radius: 50% !important;
-      border-radius: 50% !important;
-    }
-
-    .profile-usertitle {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .profile-usertitle-name {
-      color: #5a7391;
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 7px;
-    }
-
-    .profile-usertitle-job {
-      text-transform: uppercase;
-      color: #5b9bd1;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
-
-    .profile-userbuttons {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .profile-userbuttons .btn {
-      text-transform: uppercase;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 6px 15px;
-      margin-right: 5px;
-    }
-
-    .profile-userbuttons .btn:last-child {
-      margin-right: 0px;
-    }
-        
-    .profile-usermenu {
-      margin-top: 30px;
-    }
-
-    .profile-usermenu ul li {
-      border-bottom: 1px solid #f0f4f7;
-    }
-
-    .profile-usermenu ul li:last-child {
-      border-bottom: none;
-    }
-
-    .profile-usermenu ul li a {
-      color: #93a3b5;
-      font-size: 14px;
-      font-weight: 400;
-    }
-
-    .profile-usermenu ul li a i {
-      margin-right: 8px;
-      font-size: 14px;
-    }
-
-    .profile-usermenu ul li a:hover {
-      background-color: #fafcfd;
-      color: #5b9bd1;
-    }
-
-    .profile-usermenu ul li.active {
-      border-bottom: none;
-    }
-
-    .profile-usermenu ul li.active a {
-      color: #5b9bd1;
-      background-color: #f6f9fb;
-      border-left: 2px solid #5b9bd1;
-      margin-left: -2px;
-    }
-
-    /* Profile Content */
-    .profile-content {
-      padding: 20px;
-      background: #fbfbfb;
-      min-height: 460px;
-      border-radius: 5px;
-    }
-
-    .item-music {
-      margin-bottom: 25px;
-    }
-
-    .bg {
-        /* The image used */
-        background-image: url("https://images.pexels.com/photos/414548/pexels-photo-414548.jpeg?w=940&h=650&auto=compress&cs=tinysrgb");
-
-        /* Full height */
-        height: 100%; 
-
-        /* Center and scale the image nicely */
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        opacity: 0.6;
-    }
-    .login-panel {
-        margin-top: 100px;
-        margin-bottom: 50px;
-    }
-    input.input-search-friend {
-        width: 95%;
-        float: left;
-        border-radius: 5px 0px 0px 5px;
-    }
-    a.btn-search-friend {
-        float: left;
-        width: 5%;
-        border-radius: 0px 5px 5px 0px;
-    }
-    input.input-search-music {
-        width: 93%;
-        float: left;
-        border-radius: 5px 0px 0px 5px;
-    }
-    a.btn-search-music {
-        float: left;
-        width: 7%;
-        border-radius: 0px 5px 5px 0px;
-    }
-  </style>
-
+  
+  <link rel="stylesheet" type="text/css" href="/static/css/theme.css">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -170,5 +20,38 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script type="text/javascript">
+    
+    $("textarea").bind("input", function(e) {
+        while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth")) &&
+              $(this).height() < 500
+             ) {
+            $(this).height($(this).height()+1);
+        };
+    });
+
+    $('.comment-send').click(function() {
+      $.ajax({
+        url: '/music/comment',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+          'comment_music_indicate_id': $('#comment-song-id').val(),
+          'comment_music_indicate_text': $('#comment-song-text').val()
+        },
+        success: function(response) {
+          $('#comment-song-text').val('');
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+    });
+
+    function openComments(id) {
+      $('#' + id).toggle();
+    }
+
+  </script>
 </body>
 </html>

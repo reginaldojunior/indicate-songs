@@ -1,5 +1,6 @@
 
 import spotipy
+import datetime
 
 from spotipy import oauth2
 from django.shortcuts import render
@@ -10,7 +11,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
-from models import UserProfile, MusicIndicates
+from models import UserProfile, MusicIndicates, Comments
 
 
 PORT_NUMBER = 8000
@@ -90,13 +91,27 @@ def music_indicates(request):
 	for music in musics:
 		to_user = User.objects.get(id=music.to_user_id)
 		to_user_profile = UserProfile.objects.get(user_id=music.to_user_id)
+		comments = Comments.objects.filter(music_indicates_id=music.id).order_by('-id')
+
+		responses = []
+		for comment in comments:
+			profile_comment = UserProfile.objects.get(user_id=comment.user_id)
+
+			responses.append({
+				'text': comment.text,
+				'url_image': profile_comment.url_image,
+				'date': comment.date,
+				'time': comment.time
+			})
 
 		result.append({
+			'id': music.id,
 			'url': music.url,
 			'image_album': music.image_album,
 			'track_name': music.track_name,
 			'to_user_name': to_user.first_name,
-			'to_user_url_image': to_user_profile.url_image
+			'to_user_url_image': to_user_profile.url_image,
+			'comments': responses
 		})
 
 	return render(request, 'music_indicates.html', {
@@ -119,13 +134,27 @@ def indicates(request):
 	for music in musics:
 		from_user = User.objects.get(id=music.from_user_id)
 		from_user_profile = UserProfile.objects.get(user_id=music.from_user_id)
+		comments = Comments.objects.filter(music_indicates_id=music.id).order_by('-id')
+
+		responses = []
+		for comment in comments:
+			profile_comment = UserProfile.objects.get(user_id=comment.user_id)
+
+			responses.append({
+				'text': comment.text,
+				'url_image': profile_comment.url_image,
+				'date': comment.date,
+				'time': comment.time
+			})
 
 		result.append({
+			'id': music.id,
 			'url': music.url,
 			'image_album': music.image_album,
 			'track_name': music.track_name,
 			'from_user_name': from_user.first_name,
-			'from_user_url_image': from_user_profile.url_image
+			'from_user_url_image': from_user_profile.url_image,
+			'comments': responses
 		})
 
 	return render(request, 'indicates.html', {
@@ -136,19 +165,42 @@ def indicates(request):
 	})
 
 @csrf_exempt
+def post_music_comment(request):
+	Comment = Comments(
+		music_indicates_id=request.POST['comment_music_indicate_id'],
+		text=request.POST['comment_music_indicate_text'],
+		user_id=request.session['user_id'],
+		date=datetime.datetime.today().strftime('%Y-%m-%d'),
+		time=datetime.datetime.today().strftime('%H:%M:%S')
+	)
+
+	Comment.save()
+
+	return JsonResponse({'comment': 200})
+
+@csrf_exempt
 def get_friends_by_keywords(request):
 	users = User.objects.filter(first_name__contains=request.POST['name'])
 
 	response = []
 	for user in users:
-		user_profile = UserProfile.objects.get(user_id=user.id)
+		try:
+			user_profile = UserProfile.objects.get(user_id=user.id)
 
-		response.append({
-			'id': user.id,
-			'name': user.first_name,
-			'url_image': user_profile.url_image,
-			'access_token': user_profile.access_token
-		})
+			response.append({
+				'id': user.id,
+				'name': user.first_name,
+				'url_image': user_profile.url_image,
+				'access_token': user_profile.access_token
+			})
+		except Exception, e:
+			if not user.is_superuser:
+				response.append({
+					'id': user.id,
+					'name': user.first_name,
+					'url_image': None,
+					'access_token': None
+				})
 
 	return JsonResponse({'users': response})
 

@@ -14,11 +14,47 @@
 						</div>
 						<div class="col-md-8">
 						   	<h3>{{ music.track_name }} por {{ music.from_user_name }}</h3>	
-						   	<a href="{{ music.url }}" target="_blank">Ver Música</a>
+						   	<a href="{{ music.url }}" target="_blank">Ver Música</a> | 
+						   	<a href="javascript:openComments('{{music.id}}');">Comentarios</a>
 						</div>
 	            		<div class="col-md-2">
 	            			<img src="{{ music.from_user_url_image }}" class="img-responsive img-circle" alt="">
 						</div>
+					</div>
+
+					<div class="comments" id="{{music.id}}">
+						<div class="comment-wrap">
+							<div class="photo">
+								<div class="avatar" style="background-image: url('{{user.images.0.url}}')"></div>
+							</div>
+							<div class="comment-block text-right">
+								<input type="hidden" id="comment-song-id" value="{{music.id}}"/>
+								<textarea name="comment" id="comment-song-text" cols="30" rows="2" placeholder="Comente Sobre..."></textarea>
+
+								<a class="btn btn-success btn-sm comment-send">
+									<i class="fa fa-send"></i>
+								</a>
+							</div>
+						</div>
+
+						{% for comment in music.comments %}
+							<div class="comment-wrap">
+								<div class="photo">
+									<div class="avatar" style="background-image: url('{{ comment.url_image }}')"></div>
+								</div>
+								<div class="comment-block">
+									<p class="comment-text">
+										{{ comment.text }}
+									</p>
+									<div class="bottom-comment">
+										<div class="comment-date">{{ comment.date }} @ {{ comment.time }} PM</div>
+										<ul class="comment-actions">
+											<li class="reply">Responder</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
 					</div>
 				{% endfor %}
 			</div>
