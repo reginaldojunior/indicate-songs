@@ -15,17 +15,17 @@
 		<!-- SIDEBAR MENU -->
 		<div class="profile-usermenu">
 			<ul class="nav">
-				<li class="active">
+				<li {% if home %} class="active" {% endif %}>
 					<a href="/">
 						<i class="glyphicon glyphicon-home"></i> Perfil
 					</a>
 				</li>
-				<li>
+				<li {% if music_indicates %} class="active" {% endif %}>
 					<a href="/music_indicates">
 						<i class="fa fa-music"></i> Musicas Indicadas
 					</a>
 				</li>
-				<li>
+				<li {% if indicates %} class="active" {% endif %}>
 					<a href="/indicates">
 						<i class="fa fa-rss"></i> Indicações
 					</a>

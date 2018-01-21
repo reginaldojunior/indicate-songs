@@ -73,7 +73,8 @@ def home(request):
 	return render(request, 'home.html', {
 		'user': user,
 		'access_token': access_token,
-		'error': None
+		'error': None,
+		'home': True
 	})
 
 def music_indicates(request):
@@ -101,7 +102,8 @@ def music_indicates(request):
 		'musics': result,
 		'user': user,
 		'access_token': access_token,
-		'error': None
+		'error': None,
+		'music_indicates': True
 	})
 
 def indicates(request):
@@ -128,7 +130,8 @@ def indicates(request):
 	return render(request, 'indicates.html', {
 		'musics': result,
 		'user': user,
-		'access_token': access_token
+		'access_token': access_token,
+		'indicates': True
 	})
 
 @csrf_exempt
