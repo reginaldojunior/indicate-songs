@@ -31,16 +31,36 @@
     });
 
     $('.comment-send').click(function() {
+      id = $(this).attr('data-id');
+      console.log(id);
       $.ajax({
         url: '/music/comment',
         method: 'POST',
         dataType: 'json',
         data: {
-          'comment_music_indicate_id': $('#comment-song-id').val(),
-          'comment_music_indicate_text': $('#comment-song-text').val()
+          'comment_music_indicate_id': $('#comment-song-id-' + id).val(),
+          'comment_music_indicate_text': $('#comment-song-text-' + id).val()
         },
         success: function(response) {
-          $('#comment-song-text').val('');
+          $('#comment-song-text-' + id).val('');
+
+          html = '';
+
+          html += '<div class="comment-wrap">';
+          html += '  <div class="photo">';
+          html += '    <div class="avatar" style="background-image: url(\'' + response['url_image'] + '\')"></div>';
+          html += '  </div>';
+          html += '  <div class="comment-block">';
+          html += '    <p class="comment-text">';
+          html += '      ' + response['text'];
+          html += '    </p>';
+          html += '    <div class="bottom-comment">';
+          html += '      <div class="comment-date">' + response['date'] + ' @ ' + response['time'] + '</div>';
+          html += '    </div>';
+          html += '  </div>';
+          html += '</div>';
+
+          $('#comments-list-' + id).prepend(html);
         },
         error: function (error) {
           console.log(error);

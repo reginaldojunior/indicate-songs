@@ -166,17 +166,27 @@ def indicates(request):
 
 @csrf_exempt
 def post_music_comment(request):
+	date = datetime.datetime.today().strftime('%Y-%m-%d')
+	time = datetime.datetime.today().strftime('%H:%M:%S')
+
 	Comment = Comments(
 		music_indicates_id=request.POST['comment_music_indicate_id'],
 		text=request.POST['comment_music_indicate_text'],
 		user_id=request.session['user_id'],
-		date=datetime.datetime.today().strftime('%Y-%m-%d'),
-		time=datetime.datetime.today().strftime('%H:%M:%S')
+		date=date,
+		time=time
 	)
 
 	Comment.save()
 
-	return JsonResponse({'comment': 200})
+	profile_comment = UserProfile.objects.get(user_id=request.session['user_id'])
+
+	return JsonResponse({
+		'text': request.POST['comment_music_indicate_text'],
+		'url_image': profile_comment.url_image,
+		'date': date,
+		'time': time
+	})
 
 @csrf_exempt
 def get_friends_by_keywords(request):
