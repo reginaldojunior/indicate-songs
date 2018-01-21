@@ -45,7 +45,8 @@ def home(request):
 		sp = spotipy.Spotify(auth=access_token)
 		user = sp.current_user()
 	except Exception, e:
-		del request.session['access_token']
+		if 'access_token' in request.session:
+			del request.session['access_token']
 
 		return redirect('signup')
 
