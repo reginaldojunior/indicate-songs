@@ -9,7 +9,7 @@
 			<a href="javascript:searchFriend();" class="btn btn-success btn-search-friend">
 				<i class="fa fa-search"></i>
 			</a>
-	        <div class="profile-content" id="friends">
+	        <div class="row profile-content" id="friends">
 	        </div>
 		</div>
 	</div>
@@ -49,18 +49,14 @@
 				success: function(response) {
 					html = '';
 
-					for (i in response['users']) {	
-			        	html += '<div class="row" style="margin-top: 25px;">';
-			        	html += '	<div class="col-md-2">';
+					for (i in response['users']) {
+			        	html += '	<div class="col-md-3">';
 						html += '		<img src="' + response['users'][i]['url_image'] + '" class="img-responsive img-rounded" alt="">';
-			        	html += '	</div>';
-			        	html += '	<div class="col-md-10">';
 			        	html += '		<h2>' + response['users'][i]['name'] + '</h2>';
 			        	html += '		<a class="btn btn-primary">';
 			        	html += '			<i class="fa fa-send" onclick="loadModelToSearchMusic(' + response['users'][i]['id'] + ');"></i>';
 			        	html += '		</a>';
 			        	html += '	</div>';
-			        	html += '</div>';
 					}
 
 					$('#friends').html(html);
