@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="row profile">
+		{% include 'profile-sidebar.html' %}
+
+		<div class="col-md-9">
+			<input class="form-control input-search-group" 
+				   type="text" 
+				   placeholder="Digite uma palavra chave para buscar um grupo de usuários...">
+			<a href="javascript:searchGroups();" class="btn btn-success btn-search-group">
+				<i class="fa fa-search"></i>
+			</a>
+			<a href="javascript:;" class="btn btn-primary btn-add-group">
+				<i class="fa fa-plus"></i>
+			</a>
+	        <div class="row profile-content" id="groups"></div>
+		</div>
+	</div>
+
+{% endblock %}
