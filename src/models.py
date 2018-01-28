@@ -16,8 +16,9 @@ class UserProfile(models.Model):
 
 class MusicIndicates(models.Model):
 	url = models.CharField(max_length=150)
-	to_user_id = models.IntegerField()
-	from_user_id = models.IntegerField()
+	to_user_id = models.IntegerField(null=True)
+	from_user_id = models.IntegerField(null=True)
+	to_group_id = models.IntegerField(null=True)
 	image_album = models.CharField(max_length=150)
 	track_name = models.CharField(max_length=100)
 
@@ -35,3 +36,34 @@ class Comments(models.Model):
 
     class Meta:
     	db_table = "comments"
+
+class Group(models.Model):
+	VISIBILITY = (
+	    ('PUBLIC', 'PUBLIC'),
+	    ('PRIVATE', 'PRIVATE'),
+	    ('SECRET', 'SECRET'),
+	)
+
+	name = models.CharField(max_length=200)
+	description = models.TextField()
+	visibility = models.CharField(max_length=10, choices=VISIBILITY)
+	owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+	class Meta:
+		db_table = "group"
+
+
+class GroupAdmins(models.Model):
+	PERMISSION = (
+		('ADMIN', 'ADMIN'),
+		('MODERATOR', 'MODERATOR')
+	)
+
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	group = models.ForeignKey(Group, on_delete=models.CASCADE)
+	permission = models.CharField(max_length=15, choices=PERMISSION)
+
+
+	class Meta:
+		db_table = "group_admins"

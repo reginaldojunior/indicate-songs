@@ -153,6 +153,23 @@ a.btn-search-music {
     margin-top: 40px;
 }
 
+input.input-search-group {
+    width: 90%;
+    float: left;
+    border-radius: 5px 0px 0px 5px;
+}
+a.btn-search-group {
+    float: left;
+    width: 5%;
+    border-radius: 0px 0px 0px 0px;
+}
+a.btn-add-group {
+  border-radius: 0px 5px 5px 0px;
+}
+#groups {
+    margin-top: 40px;
+}
+
 input, textarea {
   outline: none;
   border: none;

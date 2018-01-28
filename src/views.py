@@ -164,6 +164,16 @@ def indicates(request):
 		'indicates': True
 	})
 
+def groups(request):
+	access_token = request.session['access_token']
+	
+	sp = spotipy.Spotify(auth=access_token)
+	user = sp.current_user()
+	
+	return render(request, 'groups.html', {
+		'user': user
+	})
+
 @csrf_exempt
 def post_music_comment(request):
 	date = datetime.datetime.today().strftime('%Y-%m-%d')
